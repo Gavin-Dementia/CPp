@@ -1,0 +1,36 @@
+# Build folders
+/build/
+/gui/build-*/
+
+# Qt build artifacts
+*.obj
+*.o
+*.exe
+*.user
+*.log
+*.moc
+*.qrc
+*.qmake.stash
+*.pro.user
+*.ts
+ui_*.h
+Makefile*
+*.vcxproj*
+
+# CMake artifacts
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+*.ninja
+.ninja_log
+.ninja_deps
+
+# IDEs
+.vscode/
+.idea/
+*.sdf
+*.opensdf
+*.suo
+*.user
+*.user.*
+
