@@ -30,17 +30,17 @@ A lightweight and extensible thread pool framework built with **Modern C++23**, 
 
 ConcurrentEngine/
 
-├── include/ # Public headers
+├── include/      # Public headers
 
-├── src/ # Core implementations
+├── src/          # Core implementations
 
-├── examples/ # Demo & test programs
+├── examples/     # Demo & test programs
 
-├── gui/ # Qt GUI monitor (in progress)
+├── gui/          # Qt GUI monitor (in progress)
 
-├── legacy/ # Old versions (for reference)
+├── legacy/       # Old versions (for reference)
 
-└── README.md # You're here
+└── README.md     <- You're here
 
 ---
 
