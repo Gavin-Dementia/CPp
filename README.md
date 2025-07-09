@@ -1,81 +1,98 @@
-# ConcurrentEngine - Modern C++ Task Scheduling Framework
+# ConcurrentEngine_Light
 
-A lightweight and extensible thread pool framework built with **Modern C++23**, supporting custom **schedulers**, **task rejection policies**, and future-based **asynchronous task** execution.
+A lightweight, modular and extensible C++ concurrency task scheduling engine with multi-strategy support.
 
----
-
-## Features
-
-- **Pluggable Scheduling** (FIFO, Priority, DAG-ready)
-- **Rejection Policies**: BLOCK, DISCARD, THROW
-- **Thread Pool Modes**: FIXED / CACHED (SINGLE planned)
-- **Futures + packaged_task** for return values
-- **Thread Metadata**: Track thread IDs, state, lifecycle
+This project aims to provide a customizable and efficient concurrency framework with multiple schedulers (FIFO, Priority, DAG), task encapsulation using `std::future`, and rejection policies for overload handling.
 
 ---
 
-## 🔧 Architecture Overview
+## 🌟 Features
 
-| Component        | Description |
-|------------------|-------------|
-| `IScheduler`     | Interface for custom schedulers |
-| `FIFOScheduler`  | Basic first-in-first-out queue |
-| `PriorityScheduler` | High, Medium, Low task priority |
-| `DAGScheduler` *(WIP)* | Supports DAG-based task dependency |
-| `ThreadPool`     | Unified task engine with mode/rejection control |
-
----
-
-## 📂 Directory Structure
-
-ConcurrentEngine/
-
-├── include/      # Public headers
-
-├── src/          # Core implementations
-
-├── examples/     # Demo & test programs
-
-├── gui/          # Qt GUI monitor (in progress)
-
-├── legacy/       # Old versions (for reference)
-
-└── README.md     <- You're here
+- 🧵 **ThreadPool with dynamic worker management**
+- 🗂️ **Multiple schedulers**:
+  - FIFO (First-In-First-Out)
+  - Priority Queue
+  - DAG-based dependency scheduler
+- 🔮 **Generic task encapsulation** using `std::packaged_task` / `std::function`
+- 🚫 **Task rejection strategies**: BLOCK, DISCARD, THROW
+- 📜 **Thread-safe logger**
+- ✅ Modern C++ (C++20/23) design
 
 ---
 
-## 🧪 Example Usage
+## 🛠️ Build & Run
 
-```cpp
-ThreadPool pool(std::make_unique<PriorityScheduler>());
-pool.start(4);
+### 📦 Requirements
 
-for (int i = 0; i < 10; ++i) {
-    pool.submit(i % 2 == 0 ? TaskPriority::HIGH : TaskPriority::LOW,
-                [i] { std::cout << "Task " << i << " running\n"; });
-}
+- C++20 or above
+- CMake 3.14+
 
+```bash
+# Clone project
+git clone https://github.com/Gavin-Dementia/ConcurrentEngine_Light.git
+cd ConcurrentEngine_Light
 
-Task Rejection Policies
-Test different behaviors when task queue is full:
-
-testRejectPolicy(RejectPolicy::BLOCK, "BLOCK");
-testRejectPolicy(RejectPolicy::DISCARD, "DISCARD");
-testRejectPolicy(RejectPolicy::THROW, "THROW");
-
-Console Output (示例):
---- policy: DISCARD ---
-[FIFOScheduler] Task discarded (queue full)
-
---- policy: THROW ---
-[FIFOScheduler] Task rejected (queue full)
-terminate called after throwing ...
+# Build
+mkdir build && cd build
+cmake ..
+make
+./main
 
 
-Build with G++
-g++ -std=c++23 -Iinclude \
-    src/threadPool.cpp src/core/thread.cpp src/core/thread_meta.cpp \
-    src/scheduler/priorityScheduler.cpp src/logger/threadlogger.cpp \
-    examples/priority_test.cpp -o priority_test.exe -pthread
+#Project Structure 
+ConcurrentEngine_Light/
+├── include/             # Public headers
+├── src/                 # Core implementations
+├── example/main.cpp     # Usage demo
+├── docs/ARCHITECTURE.md # System architecture
+├── CMakeLists.txt
+├── .gitignore
+└── README.md
 
 
+#Example Task Example(Dependency Scheduling)
+ThreadPool pool(4);
+
+// Submit simple tasks
+auto f1 = pool.submit([]() { return 100; });
+auto f2 = pool.submit([]() { return 200; });
+std::cout << "Sum: " << f1.get() + f2.get() << "\n";
+
+// Submit with priority
+pool.setScheduler(std::make_unique<PriorityScheduler>());
+pool.submit([]() { std::cout << "High priority\n"; }, /*priority=*/10);
+
+#Dag
+DAGScheduler dag;
+dag.addTask("A", [] { std::cout << "Task A\n"; });
+dag.addTask("B", [] { std::cout << "Task B\n"; });
+dag.addTask("C", [] { std::cout << "Task C\n"; });
+
+// C depends on A and B
+dag.addDependency("A", "C");
+dag.addDependency("B", "C");
+
+// Run tasks
+dag.run();
+
+
+#Execution Order (sample output)
+Task A
+Task B
+Task C
+
+
+#Modules Overview
+Module	Description
+
+ThreadPool : Manages worker threads and task submission
+Scheduler : 	Abstract interface for task dispatching
+FIFOScheduler	Simple : queue-based scheduler
+PriorityScheduler	Priority : queue scheduling
+DAGScheduler : 	Supports dependency-based task execution
+Task	Encapsulation : of callable objects and results
+Logger	: Thread-safe logging with timestamps
+
+#License
+
+This project is licensed under the MIT License. See LICENSE for details.
