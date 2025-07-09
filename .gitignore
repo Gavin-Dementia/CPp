@@ -1,36 +1,27 @@
-# Build folders
-/build/
-/gui/build-*/
-
-# Qt build artifacts
-*.obj
-*.o
-*.exe
-*.user
-*.log
-*.moc
-*.qrc
-*.qmake.stash
-*.pro.user
-*.ts
-ui_*.h
-Makefile*
-*.vcxproj*
-
-# CMake artifacts
+# === CMake ===
+build/
+cmake-build-*/
 CMakeFiles/
 CMakeCache.txt
-cmake_install.cmake
-*.ninja
-.ninja_log
-.ninja_deps
+Makefile
+*.cmake
+*.vcxproj*
+*.sln
 
-# IDEs
+# === IDEs ===
 .vscode/
 .idea/
-*.sdf
-*.opensdf
-*.suo
-*.user
-*.user.*
 
+# === Binaries ===
+*.o
+*.obj
+*.exe
+*.out
+*.a
+*.so
+*.dll
+*.lib
+
+# === OS Files ===
+.DS_Store
+Thumbs.db
