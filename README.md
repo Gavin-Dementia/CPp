@@ -51,6 +51,7 @@ ConcurrentEngine_Light/
 
 
 #Example Task Example(Dependency Scheduling)
+```bash
 ThreadPool pool(4);
 
 // Submit simple tasks
@@ -74,13 +75,14 @@ dag.addDependency("B", "C");
 
 // Run tasks
 dag.run();
-
+```
 
 #Execution Order (sample output)
+```bash
 Task A
 Task B
 Task C
-
+```
 
 #Modules Overview
 Module	Description
