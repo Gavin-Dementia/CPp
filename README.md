@@ -92,23 +92,23 @@ Task B
 Task C
 ```
 
-# Modules Overview
+## Modules Overview
 
-Module	Description
+# Module	Description
 
-ThreadPool | Manages worker threads and task submission
+ThreadPool : Manages worker threads and task submission
 
-Scheduler |	Abstract interface for task dispatching
+Scheduler :	Abstract interface for task dispatching
 
-FIFOScheduler |	Simple queue-based scheduler
+FIFOScheduler :	Simple queue-based scheduler
 
-PriorityScheduler |	Priority queue scheduling
+PriorityScheduler :	Priority queue scheduling
 
-DAGScheduler | Supports dependency-based task execution
+DAGScheduler : Supports dependency-based task execution
 
-Task | Encapsulation of callable objects and results
+Task : Encapsulation of callable objects and results
 
-Logger | Thread-safe logging with timestamps
+Logger : Thread-safe logging with timestamps
 
 # License
 
