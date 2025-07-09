@@ -93,14 +93,21 @@ Task C
 ```
 
 # Modules Overview
+
 Module	Description
 
 ThreadPool | Manages worker threads and task submission
+
 Scheduler |	Abstract interface for task dispatching
+
 FIFOScheduler |	Simple queue-based scheduler
+
 PriorityScheduler |	Priority queue scheduling
+
 DAGScheduler | Supports dependency-based task execution
+
 Task | Encapsulation of callable objects and results
+
 Logger | Thread-safe logging with timestamps
 
 # License
