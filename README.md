@@ -39,18 +39,24 @@ make
 ./main
 ```
 
-#Project Structure 
+# Project Structure 
 ConcurrentEngine_Light/
+
 ├── include/             # Public headers
+
 ├── src/                 # Core implementations
+
 ├── example/main.cpp     # Usage demo
+
 ├── docs/ARCHITECTURE.md # System architecture
+
 ├── CMakeLists.txt
+
 ├── .gitignore
+
 └── README.md
 
-
-#Example Task Example(Dependency Scheduling)
+# Example Task Example(Dependency Scheduling)
 ```bash
 ThreadPool pool(4);
 
@@ -77,24 +83,24 @@ dag.addDependency("B", "C");
 dag.run();
 ```
 
-#Execution Order (sample output)
+# Execution Order (sample output)
 ```bash
 Task A
 Task B
 Task C
 ```
 
-#Modules Overview
+# Modules Overview
 Module	Description
 
 ThreadPool : Manages worker threads and task submission
 Scheduler : 	Abstract interface for task dispatching
-FIFOScheduler	Simple : queue-based scheduler
+FIFOScheduler :	Simple queue-based scheduler
 PriorityScheduler	Priority : queue scheduling
 DAGScheduler : 	Supports dependency-based task execution
 Task	Encapsulation : of callable objects and results
 Logger	: Thread-safe logging with timestamps
 
-#License
+# License
 
 This project is licensed under the MIT License. See LICENSE for details.
