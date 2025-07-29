@@ -3,13 +3,15 @@
 #include <chrono>
 #include <threadPool/threadPool.hpp>
 #include <threadPool/scheduler/PriorityScheduler.hpp>
+using namespace ConcurrentEngine::Scheduler;
 
-void testPriorityScheduler() {
+void testPriorityScheduler() 
+{
     auto scheduler = std::make_unique<PriorityScheduler>();
     scheduler->setRejectPolicy(RejectPolicy::BLOCK);
     scheduler->setMaxQueueSize(5);
 
-    ThreadPool pool(std::move(scheduler));
+    ConcurrentEngine::ThreadPool pool(std::move(scheduler));
     pool.start(2);
 
     // 提交不同優先級任務
