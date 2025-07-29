@@ -1,23 +1,32 @@
 #include <iostream>
-#include <threadPool/threadPool.hpp>
-#include <threadPool/scheduler/FIFO_schedule.hpp>
 #include <chrono>
+#include <thread>
+#include <string>
+#include <threadPool/threadPool.hpp>
 
-int main() 
-{
-    auto scheduler = std::make_unique<FIFOScheduler>();
-    scheduler->setMaxQueueSize(10);
-    scheduler->setRejectPolicy(RejectPolicy::BLOCK);
+int main() {
+    ConcurrentEngine::ThreadPool pool;
+    pool.setMode(ConcurrentEngine::PoolMode::MODE_CACHED);
+    pool.start(4);
 
-    ThreadPool pool(std::move(scheduler));
-    pool.start(2);
+    // 任務1：沒有參數
+    auto fut1 = pool.submit("SimpleReturn", [] {
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        return 42;
+    });
 
-    auto fut1 = pool.submit([] { return 42; });
-    auto fut2 = pool.submit([](int x, int y) { return x + y; }, 3, 7);
+    // 任務2：帶參數的 lambda，使用指定 priority 版本 submit
+    auto fut2 = pool.submit(
+        ConcurrentEngine::Scheduler::TaskPriority::HIGH,
+        [](int x, int y) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            return x + y;
+        },
+        7, 5
+    );
 
-    std::cout << "fut1 = " << fut1.get() << std::endl; // 42
-    std::cout << "fut2 = " << fut2.get() << std::endl; // 10
+    std::cout << "Result from fut1: " << fut1.get() << std::endl;
+    std::cout << "Result from fut2: " << fut2.get() << std::endl;
 
-    pool.stop();
     return 0;
 }

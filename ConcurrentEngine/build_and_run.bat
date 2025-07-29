@@ -34,9 +34,9 @@ if errorlevel 1 (
     exit /b 1
 )
 
-:: 執行主程式
-echo [INFO] Running main.exe...
-main.exe
+:: 執行 dag_test.exe
+echo [INFO] Running dag_test.exe...
+dag_test.exe
 
 pause
 endlocal
