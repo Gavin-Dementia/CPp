@@ -44,12 +44,13 @@ struct ThreadPoolState
 class ThreadPool 
 {
 public:
-    ThreadPool() = default;
-
-    explicit ThreadPool(std::unique_ptr<Scheduler::IScheduler> scheduler)
+    explicit ThreadPool(std::unique_ptr<Scheduler::IScheduler> scheduler = nullptr)
         : scheduler_(std::move(scheduler))
-        , state_(std::make_shared<ThreadPoolState>()) {}
+        , state_(std::make_shared<ThreadPoolState>()) 
+    {}
 
+    void setMode(PoolMode mode) { state_->poolmode = mode; }
+    PoolMode getMode() const { return state_->poolmode; }
     void start(int threadCount);
     void stop();
 
@@ -101,12 +102,6 @@ public:
         return submit(name, Scheduler::TaskPriority::MEDIUM, std::forward<Func>(f), std::forward<Args>(args)...);
     }
 
-    template<typename Func, typename... Args>
-    auto submit(Func&& f, Args&&... args)
-    {
-        return submit("UnnamedTask", Scheduler::TaskPriority::MEDIUM, std::forward<Func>(f), std::forward<Args>(args)...);
-    }
-
     template<typename Func>
     auto submitDAG(const std::string& name, Func&& f,
                    const std::vector<std::shared_ptr<Scheduler::TaskNode>>& deps = {})
@@ -116,7 +111,7 @@ public:
         auto task = std::make_shared<std::packaged_task<ReturnType()>>(std::forward<Func>(f));
 
         auto node = std::make_shared<Scheduler::TaskNode>();
-        node->func = [task]() { (*task)(); };
+        node->task = [task]() { (*task)(); };
 
         ThreadLogger::getInstance().log("[submitDAG] " + name);
 

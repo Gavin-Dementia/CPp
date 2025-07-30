@@ -8,13 +8,15 @@
 #include <chrono>
 #include <thread>
 
+using namespace ConcurrentEngine::Scheduler;
+
 inline void runRejectTest(RejectPolicy policy) 
 {
     auto scheduler = std::make_unique<FIFOScheduler>();
     scheduler->setRejectPolicy(policy);
     scheduler->setMaxQueueSize(2);
 
-    ThreadPool pool(std::move(scheduler));
+    ConcurrentEngine::ThreadPool pool(std::move(scheduler));
     pool.start(1);
 
     for (int i = 0; i < 10; ++i) 
